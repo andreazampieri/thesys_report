@@ -2,6 +2,12 @@
 
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 \usepackage{scrextend}
+\makeatletter
+\let\@addmarginORIG\@addmargin
+\renewcommand*\@addmargin{%
+	\vspace{-\bigskipamount}
+	\@addmarginORIG}
+\makeatother
 
 \author{Andrea Zampieri}
 \title{Network Inference from Node Embedding:\newline Deep Autoencoding}
@@ -16,9 +22,14 @@
 		The goal is to obtain a reconstruction as precise as possible of the actual \textbf{Interaction Network} without using any kind of exact information on the actual graph.\\ 
 		\\
 		\textbf{Note:} for semplicity and immediacy sake, during the explanation I will make references to a specific example in order to show an instance of the problem:\\
-		\tab \textbf{\textit{Twitter}}: the interactions observed are formed by:\\
-			\tab\tab - \textit{contagiant element}: the ones taken in consideration are the \textit{hashtags} \\
-			\tab\tab - \textit{infection spreading}: and for each hashtag there's a list of users (with its respective time) that used it.
+		
+		\begin{addmargin}[2em]{0em}
+			\textbf{\textit{Twitter}}: the interactions observed are formed by:\\
+				\begin{addmargin}[2em]{0em}
+					- \textit{contagiant element}: the ones taken in consideration are the \textit{hashtags} \\
+					- \textit{infection spreading}: each contagiant has a list of user infected (with the timestamp). This indicates which users used that hashtag.
+				\end{addmargin}
+		\end{addmargin}
 	
 	\section{Reproduction of the SoA Tecnique}
 		\subsection{Brief Overview}
