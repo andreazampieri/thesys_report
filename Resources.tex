@@ -18,30 +18,38 @@
 	\newpage
 	\section{Introduction} 
 		I started from the Zekarias	T. Kefato's paper: \textit{DeepInfer: Diffusion Network Inference through Representation Learning}.\\
-		The problem tackled in this paper (as described by its title) is infering a network starting from series of interactions between the elements in play.
+		The problem tackled in this paper (as described by its title) is inferring a network starting from series of interactions between the elements in play.
 		The goal is to obtain a reconstruction as precise as possible of the actual \textbf{Interaction Network} without using any kind of exact information on the actual graph.\\ 
 		\\
-		\textbf{Note:} for semplicity and immediacy sake, during the explanation I will make references to a specific example in order to show an instance of the problem:\\
+		\textbf{Note:} for simplicity and immediacy sake, during the explanation I will make references to a specific example in order to show an instance of the problem:\\
 		
 		\begin{addmargin}[2em]{0em}
 			\textbf{\textit{Twitter}}: the interactions observed are formed by:\\
 				\begin{addmargin}[2em]{0em}
-					- \textit{contagiant element}: the ones taken in consideration are the \textit{hashtags} \\
+					- \textit{contagious element}: the ones taken in consideration are the \textit{hashtags} \\
 					- \textit{infection spreading}: each contagiant has a list of user infected (with the timestamp). This indicates which users used that hashtag.
 				\end{addmargin}
 		\end{addmargin}
 	
 	\section{Reproduction of the SoA Tecnique}
 		\subsection{Brief Overview}
-			The State of Art tecnique has precise, consequential steps:
+			The State of Art technique has precise, consequential steps:
 			\begin{itemize}
 				\item Cascade Linearization
 				\item Node embedding
 				\item Top Pairs fetching
-				\item Inference evalutation
+				\item Inference evaluation
 			\end{itemize}
 		\subsection{Description}
 			The desired input formatting is a list of sequences of interaction, the contagiant element and the time between each infection isn't relevant. This kind of lists are called cascades.\\
-			In order to obtain this kind of representation - for each hashtag cascade - it's necessary to sort each user for ascending timestamp
-		
+			In order to obtain this kind of representation - for each hashtag cascade - it's necessary to sort each user for ascending timestamp, and once did so, stripe off the time values, since aren't required for the computations.\\
+			\paragraph{Example}
+				\begin{addmargin}[1em]{0em}
+					$$c_{j}: [(u_{1},t_{1}), ..., (u_{n},t_{n})]$$
+					\\
+					where $u_{i}$ is the id of the user and $t_{i}$ its timestamp relative to the cascade $c_{j}$ represented by its hashtag.\\
+					The representation becomes: $[u_{k},...,u_{l}]$ where the users $u$ are sorted by ascending timestamp. \textbf{Note:} the hashtag and the timestamps are stripped off because they aren't relevant to the goal of network inference.
+				\end{addmargin}
+		\subsection{Node Embedding}
+			\textit{Node Embedding} states for a different representation of the nodes of the graph (in our case, the users).
 \end{document}
