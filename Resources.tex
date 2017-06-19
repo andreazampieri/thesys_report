@@ -40,7 +40,7 @@
 				\item Top Pairs fetching
 				\item Inference evaluation
 			\end{itemize}
-		\subsection{Description}
+		\subsection{Cascade Linearization}
 			The desired input formatting is a list of sequences of interaction, the contagiant element and the time between each infection isn't relevant. This kind of lists are called cascades.\\
 			In order to obtain this kind of representation - for each hashtag cascade - it's necessary to sort each user for ascending timestamp, and once did so, stripe off the time values, since aren't required for the computations.\\
 			\paragraph{Example}
@@ -51,5 +51,25 @@
 					The representation becomes: $[u_{k},...,u_{l}]$ where the users $u$ are sorted by ascending timestamp. \textbf{Note:} the hashtag and the timestamps are stripped off because they aren't relevant to the goal of network inference.
 				\end{addmargin}
 		\subsection{Node Embedding}
-			\textit{Node Embedding} states for a different representation of the nodes of the graph (in our case, the users).
+			\textit{Node Embedding} states for a different representation of the nodes of the graph (in our case, the users).\\
+			In our case it's done via \textit{n-dimensional} arrays of floating-point values.\\
+			This method is largely used for context prediction of words based on some reference documents. The leading idea is to assign similar set of values to words that occur within the same context (a determined value of width of the proximity window).\\
+			\paragraph{Example}
+			\begin{addmargin}[1em]{0em}
+	            \medskip
+				\tab Document: \textit{\textquotedblleft The quick brown fox jumps over the lazy dog\textquotedblright}\smallskip \\
+				With a context window of 2, the words that would be considered into the context, with respect to \textit{\textbf{fox}} would be \textit{quick, brown, jumps} and \textit{over} because they are within a range of 2 words from fox.
+			\end{addmargin}
+			The values are assigned by assuming that the probability of observing the words in the document-order of each document is the maximum.\\
+			The same kind of reasoning is done in our case:
+			\begin{itemize}
+				\item [-] The documents are represented by the cascades
+				\item [-] Users in the cascades are the equivalent of the words
+			\end{itemize}
+			The algorithm used is \textit{Word2Vec}; it's based on a Skip-gram model, i.e. the training samples are pairs of words that are in the same context window even if they aren't adjacent. (E.g. using the previous sample phrase, the pairs generated from the word fox, would be (quick,fox),(brown,fox),(fox,jumps),(fox,over)).\medskip\\
+			Usually the dimension of the embedding (the n-valued representation of the nodes) is of magnitude at most 2 (depends on the magnitude of distinct values present among all the cascades).\\
+			Note that a 100-dimensional-space-representation for a node is far more compressed than it's adjacency list.
+			
+				
+			
 \end{document}
