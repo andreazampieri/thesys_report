@@ -37,7 +37,6 @@
 			\begin{itemize}
 				\item Cascade Linearization
 				\item Node embedding
-				\item Top Pairs fetching
 				\item Inference evaluation
 			\end{itemize}
 		\subsection{Cascade Linearization}
@@ -66,10 +65,23 @@
 				\item [-] The documents are represented by the cascades
 				\item [-] Users in the cascades are the equivalent of the words
 			\end{itemize}
-			The algorithm used is \textit{Word2Vec}; it's based on a Skip-gram model, i.e. the training samples are pairs of words that are in the same context window even if they aren't adjacent. (E.g. using the previous sample phrase, the pairs generated from the word fox, would be (quick,fox),(brown,fox),(fox,jumps),(fox,over)).\medskip\\
+			The algorithm used is \textit{Word2Vec}; it's based on a Skip-gram model, i.e. the training samples are pairs of words that are in the same context window even if they aren't adjacent. (E.g. using the previous sample phrase, the pairs generated from the word fox, would be (quick,fox),(brown,fox),(fox,jumps),(fox,over)).\\
+			The NN trained has 3 layers:
+			\begin{itemize}
+				\item [-] \textit{input layer}: layer of size V [size of the vocabulary]. Each input neuron corresponds to a different word among the whole set of the latters
+				\item [-] \textit{encoding layer}: layer of size N [size of the embedding, N-dimensional space representation]. It's the layer that will construct the representation for each word.
+				\item [-] \textit{output layer}: layer of size V. As explained before for the input layer, each neuron maps a word.
+			\end{itemize}
+			The training is done with a softmax function that for each pair of words (context,target) maximizes the probability of having predicted the \textit{target} given the \textit{context}.\medskip\\
 			Usually the dimension of the embedding (the n-valued representation of the nodes) is of magnitude at most 2 (depends on the magnitude of distinct values present among all the cascades).\\
-			Note that a 100-dimensional-space-representation for a node is far more compressed than it's adjacency list.
-			
-				
+			Note that a 100-dimensional-space-representation for each node in a very large graph is a far more compressed representation than it's adjacency list.\medskip\\
+			The nodes of the graph are treated like the words in the documents and the cascades like the documents.
+		\subsection{Inference Evaluation}
+			\paragraph{}
+			The network inference is executed using the representation of each node. The prediction about whether an edge is present between two nodes $u$ and $v$ is based on the \textbf{cosine similarity} of the two representation.
+			$$ Sim(u,v) = \frac{|u\cdot v|}{|u|\cdot |v|} $$
+			where $|n|$ is the norm of the array-representation of the n and $|u|\cdot |v|$ is the cross product of the two representation.\\
+			The inference is based on the parameter $\theta$ that determines the threshold of acceptance. If $Sim(u,v) \ge \theta$ the arc is predicted present, not present otherwise.\\
+			The first way of evaluating is to generate a certain number of edges and asserting whether the prediction was correct or not; it's relevant to the evaluation goal to analyse every case (i.e. true positives, false positives, true negatives and true negatives).\\ 
 			
 \end{document}
