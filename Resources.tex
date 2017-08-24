@@ -102,7 +102,7 @@
 			The inference is based on the parameter $\theta$ that determines the threshold of acceptance. If $Sim(u,v) \ge \theta$ the arc is predicted present, not present otherwise.\\
 			The first way of evaluating is to generate a certain number of edges and asserting whether the prediction was correct or not; it's relevant to the evaluation goal to analyse every case (i.e. true positives, false positives, true negatives and true negatives).\medskip\\
 
-			With respect to the use of the cascades, in order to increase the performances not the whole dataset is utilised. As said in DI, shorter cascades contains more relevant informations about the communities in the graph; observing viral "contaminations" tells us [TBC] basically nothing about the relation between the node of the graph. \\
+			With respect to the use of the cascades, in order to increase the performances not the whole dataset is utilised. As said in DI, shorter cascades contains more relevant informations about the communities in the graph; observing viral \textquotedblleft contaminations" tells us [TBC] basically nothing about the relation between the node of the graph. \\
 			\begin{quote}
 				\centering
 				\textsc{missing joining phrases}\\
@@ -141,7 +141,7 @@
 			The approach described in this paper it's related to completely known graphs, which isn't our case. In fact SDNE, as starting representation for each node utilizes its adjacency list in vector form:
 			$$ S_{k} = [s_{1}, ... , s_{n}] $$
 			$$ s_{i} > 0 \iff (v_{k},v_{i})\in E $$\\
-			with $E$ being the set of edges of the graph, $S_{k}$ the representation relative to the node $v_{k}$ and $S$ the input for the NN. This representation is "compressed" by the Deep AutoEncoder extracting a lighter dataset that can be very useful when dealing with huge graphs.\\
+			with $E$ being the set of edges of the graph, $S_{k}$ the representation relative to the node $v_{k}$ and $S$ the input for the NN. This representation is \textquotedblleft compressed" by the Deep AutoEncoder extracting a lighter dataset that can be very useful when dealing with huge graphs.\\
 			Since the state of the graph is completely unknown to us, the idea is to replicate the same process utilising a slightly different way to identify nodes:
 			\begin{equation}
 			\begin{aligned}
@@ -158,8 +158,39 @@
 			
 			\subsection{Note on cascades and pairs of nodes}
 			As previously said, short cascades gives us more information and more accuracy in prediction.\\
-			Taking in example the case of the Twitter dataset, cascades are list of users that used a certain hashtag; in a small cascade we observe few people using the same hashtag, and so we can guess with fairly high confidence that they must follow each other because they saw the hashtag from each other. On the other hand the information is very local and doesn't cover the situation about the interconnection between communities and/or less evident grades of connection.
+			Taking in example the case of the Twitter dataset, cascades are list of users that used a certain hashtag; in a small cascade we observe few people using the same hashtag, and so we can guess with fairly high confidence that they must follow each other because they saw the hashtag from each other. On the other hand the information is very local and doesn't cover the situation about the interconnection between communities and/or less evident grades of connection.\medskip\\
+			The threshold $\lambda$ of the length of the cascades involved into the process of learning becomes an hyperparameter of the procedure. An expected phenomenon bound to the variation of $\lambda$ is that the lower it is, the more accurate will be the predictions, but the fewer arcs will be possible to infer. On the contrary, the exact opposite happens as $\lambda$ increases.
 			
+			\begin{algorithm} % enter the algorithm environment
+				\caption{Generate the pairs of nodes starting from a set of cascades} % give the algorithm a caption
+				\label{alg1} % and a label for \ref{} commands later in the document
+				\begin{algorithmic} % enter the algorithmic environment
+					\REQUIRE $C$ the set of cascades, $\lambda$ the length threshold
+					\ENSURE $CD$ the co-occurrence dictionary
+					\STATE $C \gets$ sort\_by\_length(C)
+					\STATE $CD \gets dict(\text{key:} (int,int), \text{value:} int)$
+					\FORALL{$c \text{ in } C \text{ such as } c.length() \le \lambda$}
+						\FOR{$i$ from  $1$ to $c.length()$}
+							\FOR{$j$ from $i+1$ to $c.length()$}
+								\STATE update\_occurrence($CD,pair(c[i],c[j])$)
+							\ENDFOR
+						\ENDFOR
+					\ENDFOR
+				\end{algorithmic}
+			\end{algorithm}
 			
-		
+			\begin{algorithm} % enter the algorithm environment
+				\caption{Given a key, increases the value by one of a Dictionary} % give the algorithm a caption
+				\label{alg2} % and a label for \ref{} commands later in the document
+				\begin{algorithmic} % enter the algorithmic environment
+					\REQUIRE $D$ the dictionary, $k$ the searched key
+					\ENSURE the increment of the counter(the value) related to $k$
+					\IF{$D.$lookup($k$) $\neq$ NULL}
+						\STATE $D[k] \gets D[k]+1$
+					\ELSE
+						\STATE $D[k] \gets 1$
+					\ENDIF
+				\end{algorithmic}
+			\end{algorithm}
+					
 \end{document}
