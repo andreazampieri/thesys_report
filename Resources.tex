@@ -3,6 +3,10 @@
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 \usepackage{graphicx}
 \usepackage{wrapfig}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{amsmath}
+\usepackage{makeidx}
 \graphicspath{ {images/} }
 \usepackage{scrextend}
 \makeatletter
@@ -12,12 +16,23 @@
 	\@addmarginORIG}
 \makeatother
 
+
+\newenvironment{tightcenter}{%
+	\setlength\topsep{0pt}
+	\setlength\parskip{0pt}
+	\begin{center}
+	}{%
+\end{center}
+}
+
 \author{Andrea Zampieri}
 \title{Network Inference from Node Embedding:\newline Deep Autoencoding}
 
 
 \begin{document}
 	\maketitle
+	\newpage
+	\tableofcontents{}
 	\newpage
 	\section{Introduction} 
 		I started from the Zekarias	T. Kefato's paper: \textit{DeepInfer: Diffusion Network Inference through Representation Learning}.\\
@@ -112,7 +127,39 @@
 			An AE is \textit{overcomplete} when the encoding layer is larger in size wrt. the input and the output. This type of autoencoder is forced to learn a richer representation of the input, accomplishing a similar job to the extraction of latent variables and data-pattern recognition
 			\paragraph{Undercomplete AE}
 			In an \textit{undercomplete} AE the encoding layer is smaller than the input and output ones. With this setup, the NN tries to learn a compressed representation of the input data. In some way this can be seen as a process of feature extraction; moreover it isn't infrequent that AE performances are compared to PCA (Principal Component Analysis: statistical method for dimensionality reduction in information theory) in publications.
+			\par \noindent \newline
+			
+		\section{Work}
+			The work done has the goal to verify whether the use of a Deep AE to accomplish the embedding(the n-dimensional node representation) lead to an improvement in performances, wrt. the embedding created by Word2Vec-algorithm.
+			\begin{quote}
+				\centering
+				\textsc{finish}
+			\end{quote}
+			
+			\subsection{Inspiration}
+			\textit{Structural Deep Network Embedding} (SDNE) is a paper that covers the idea of reducing the data saved for each node in a network but maintaining good efficacy in reconstructing the network.\\
+			The approach described in this paper it's related to completely known graphs, which isn't our case. In fact SDNE, as starting representation for each node utilizes its adjacency list in vector form:
+			$$ S_{k} = [s_{1}, ... , s_{n}] $$
+			$$ s_{i} > 0 \iff (v_{k},v_{i})\in E $$\\
+			with $E$ being the set of edges of the graph, $S_{k}$ the representation relative to the node $v_{k}$ and $S$ the input for the NN. This representation is "compressed" by the Deep AutoEncoder extracting a lighter dataset that can be very useful when dealing with huge graphs.\\
+			Since the state of the graph is completely unknown to us, the idea is to replicate the same process utilising a slightly different way to identify nodes:
+			\begin{equation}
+			\begin{aligned}
+			& S_{k} = [s_{1}, ... , s_{n}]\\
+			& s_{i} = count(v_{k},v_{i})\\
+			& count(u,v) =
+			\begin{cases}
+			c & \text{if the pair } (u,v) \text{  appears } c \text{ times in the cascades}\\
+			0 & \text{if it never appears}\\
+			\end{cases}\\
+			\end{aligned}
+			\end{equation}
+			This list of values resembles a traditional adjacency list, but it's completely inferred by the cascades without any assurance on the truthfulness of the guesses.\\
+			
+			\subsection{Note on cascades and pairs of nodes}
+			As previously said, short cascades gives us more information and more accuracy in prediction.\\
+			Taking in example the case of the Twitter dataset, cascades are list of users that used a certain hashtag; in a small cascade we observe few people using the same hashtag, and so we can guess with fairly high confidence that they must follow each other because they saw the hashtag from each other. On the other hand the information is very local and doesn't cover the situation about the interconnection between communities and/or less evident grades of connection.
 			
 			
-			
+		
 \end{document}
