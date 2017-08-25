@@ -161,7 +161,7 @@
 			Taking in example the case of the Twitter dataset, cascades are list of users that used a certain hashtag; in a small cascade we observe few people using the same hashtag, and so we can guess with fairly high confidence that they must follow each other because they saw the hashtag from each other. On the other hand the information is very local and doesn't cover the situation about the interconnection between communities and/or less evident grades of connection.\medskip\\
 			The threshold $\lambda$ of the length of the cascades involved into the process of learning becomes an hyperparameter of the procedure. An expected phenomenon bound to the variation of $\lambda$ is that the lower it is, the more accurate will be the predictions, but the fewer arcs will be possible to infer. On the contrary, the exact opposite happens as $\lambda$ increases.
 			
-			\begin{algorithm} % enter the algorithm environment
+			\begin{algorithm}[H] % enter the algorithm environment
 				\caption{Generate the pairs of nodes starting from a set of cascades} % give the algorithm a caption
 				\label{alg1} % and a label for \ref{} commands later in the document
 				\begin{algorithmic} % enter the algorithmic environment
@@ -179,7 +179,7 @@
 				\end{algorithmic}
 			\end{algorithm}
 			
-			\begin{algorithm} % enter the algorithm environment
+			\begin{algorithm}[H] % enter the algorithm environment
 				\caption{Given a key, increases the value by one of a Dictionary} % give the algorithm a caption
 				\label{alg2} % and a label for \ref{} commands later in the document
 				\begin{algorithmic} % enter the algorithmic environment
@@ -192,5 +192,7 @@
 					\ENDIF
 				\end{algorithmic}
 			\end{algorithm}
-					
+			
+			\subsection{Deep Autoencoder Training}
+			The autoencoder learns to reproduce its input-data batches effectively, throughout different epochs of training specializing in compressing reproductions of the fixed dataset. Once the training is completed, the middle-layer of the neural network gives us the representation for a given input; this can be used as a substitute of the Word2Vec encoding for the network-inference task.
 \end{document}
