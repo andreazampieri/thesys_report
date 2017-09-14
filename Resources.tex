@@ -2,6 +2,7 @@
 
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 \usepackage{graphicx}
+\usepackage{epsfig}
 \usepackage{wrapfig}
 \usepackage{algorithm}
 \usepackage{algorithmic}
@@ -30,7 +31,42 @@
 
 
 \begin{document}
-	\maketitle
+	\pagestyle{plain}
+	
+	\thispagestyle{empty}
+	
+	\begin{center}
+		\begin{figure}[h!]
+			\centerline{\psfig{file=logo_unitn_black_center.eps, width=0.6\textwidth}}
+		\end{figure}
+		
+		\vspace{0 cm} 
+		
+		\LARGE{Dipartimento di Ingegneria e Scienza dell’Informazione\\}
+		
+		\vspace{1 cm} 
+		\Large{Corso di Laurea in\\
+			Informatica
+		}
+		
+		%\vspace{2 cm} 
+		%\Large\textsc{Elaborato finale\\} 
+		\vspace{1 cm} 
+		\Huge\textsc{Network Inference via  Node Embedding\\}
+		
+		\vspace{2 cm} 
+		\begin{tabular*}{\textwidth}{ c @{\extracolsep{\fill}} c }
+			\Large{Relatore} & \Large{Laureando}\\
+			\Large{Alberto Montresor}& \Large{Andrea Zampieri}\\
+		\end{tabular*}
+		
+		\vspace{2 cm} 
+		
+		\Large{Anno accademico 2016/2017}
+		
+	\end{center}
+	
+	
 	\newpage
 	\tableofcontents{}
 	\newpage
@@ -194,5 +230,26 @@
 			\end{algorithm}
 			
 			\subsection{Deep Autoencoder Training}
-			The autoencoder learns to reproduce its input-data batches effectively, throughout different epochs of training specializing in compressing reproductions of the fixed dataset. Once the training is completed, the middle-layer of the neural network gives us the representation for a given input; this can be used as a substitute of the Word2Vec encoding for the network-inference task.
+			The autoencoder learns to reproduce its input-data batches effectively, throughout different epochs of training specializing in compressing reproductions of the fixed dataset. Once the training is completed, the middle-layer of the neural network gives us the representation for a given input; this can be used as a substitute of the Word2Vec encoding for the network-inference task. The inference and evaluation process is done the same way it was executed in the paper DI.
+			
+				\subsubsection{Motivation}
+				The main reason why this attempt of improvement has been tried is because of the different architecture that offers the embedding.\\
+				In \textit{Word2Vec}, the model tries to enforce similar representation for words in the same context-window trough a shallow Autoencoder trained with the goal of predicting couple of words.\\
+				But as explained in SDNE 
+			
+	\section{Bibliography}
+	\begin{thebibliography}{9}
+		
+		\bibitem{lamport94}
+		Leslie Lamport,
+		\textit{\LaTeX: a document preparation system},
+		Addison Wesley, Massachusetts,
+		2nd edition,
+		1994.
+		
+		\bibitem{SDNE}
+		ASD et. al, \textit{QWE}, John Green, 2006
+		
+	\end{thebibliography}
+			
 \end{document}
