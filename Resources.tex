@@ -138,7 +138,7 @@
 			The inference is based on the parameter $\theta$ that determines the threshold of acceptance. If $Sim(u,v) \ge \theta$ the arc is predicted present, not present otherwise.\\
 			The first way of evaluating is to generate a certain number of edges and asserting whether the prediction was correct or not; it's relevant to the evaluation goal to analyse every case (i.e. true positives, false positives, true negatives and true negatives).\medskip\\
 
-			With respect to the use of the cascades, in order to increase the performances not the whole dataset is utilised. As said in DeepInfer, shorter cascades contains more relevant informations about the communities in the graph; observing viral \textquotedblleft contaminations" tells us [TBC] basically nothing about the relation between the node of the graph. \\
+			With respect to the use of the cascades, in order to increase the performances not the whole dataset is utilised. As said in DeepInfer, shorter cascades contains more relevant informations about the communities in the graph; observing viral \textquotedblleft contaminations" tells us basically nothing about the relation between the node of the graph. \\
 			\begin{quote}
 				\centering
 				\textsc{missing joining phrases}\\
@@ -239,6 +239,15 @@
 				The main reason why this attempt of improvement has been tried is because of the different architecture that offers the embedding.\\
 				In \textit{Word2Vec}, the model tries to enforce similar representation for words in the same context-window trough a shallow Autoencoder trained with the goal of predicting couples of words.\\
 				But as explained in SDNE, it's hard to capture highly non-linear structure (in this case the structure of the network) with a representation learnt using a shallow model (Word2Vec). Hence, the multiple levels of the autoencoder should learn the complexity of the structure of the network, and efficiently construct a good representation for each vertex.
+				
+				\subsubsection{Results}
+				\begin{tabular}{l | c | c}
+					\textbf{Dataset} & \textbf{Nodes} & \textbf{Edges} \\
+					email-Eu & 1005 & 25571 \\
+					social circles: facebook & 4039 & 88234 \\
+					twitter & 100000 & /
+					
+				\end{tabular}
 			
 	\section{Bibliography}
 	\begin{thebibliography}{9}
