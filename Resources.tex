@@ -16,7 +16,15 @@
 	\vspace{-\bigskipamount}
 	\@addmarginORIG}
 \makeatother
-
+\usepackage{geometry}
+\geometry{
+	a4paper,
+	total={140mm,237mm},
+	left=30mm,
+	top=30mm,
+	bottom=30mm,
+	right=30mm
+}
 
 \newenvironment{tightcenter}{%
 	\setlength\topsep{0pt}
@@ -252,9 +260,20 @@
 			
 				\bigskip
 				For the first two datasets the cascades (interactions between the nodes) were generated.
+				
+			\subsection{Practical issues}
+			- python problems (memory efficiency)\\
+			- adaptments\\
+			- c++ introduction\\
+			- problems with c++\\
+			
+			Since the beginning of this thesis, the language that I've used is Python. Reproducing the results shown in DeepInfer wasn't a problem at all, due to the light-weight of the computations needed since the \textquotedblleft heavy\textquotedblright work consisted on generating the embedding with \textit{Word2Vec}. The process took some minutes but one of the pros of the previously cited method is the lightness, given that the NN is very small.
+			
+			
+			
 			
 	\section{Bibliography}
-	\begin{thebibliography}{9}
+	\begin{thebibliography}{10}	
 		
 		\bibitem{deepinfer}
 		Zekarias T. Kefato and Nasrullah Sheikh and Alberto Montresor, 2017, \textit{\textsc{DeepInfer}: Diffusion Network Inference through Representation Learning}, KDD2017, Halifax, Nova Scotia, Canada
