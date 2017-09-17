@@ -250,6 +250,7 @@
 				But as explained in SDNE, it's hard to capture highly non-linear structure (in this case the structure of the network) with a representation learnt using a shallow model (Word2Vec). Hence, the multiple levels of the autoencoder should learn the complexity of the structure of the network, and efficiently construct a good representation for each vertex.
 				
 				\subsubsection{Results}
+				Three different datasets were used to validate this procedure. 
 				\begin{center}
 					\begin{tabular}{l | c | c}
 						\textbf{Dataset} & \textbf{Nodes} & \textbf{Edges} \\
@@ -271,7 +272,8 @@
 						twitter (subsampled) & [500k $\rightarrow$ 10k $\rightarrow$ 128 $\rightarrow$ 10k $\rightarrow$ 500k]
 					\end{tabular}	
 				\end{center}
-				The whole Twitter dataset had some troubles of treatability linked to the size of the set of nodes, that made impossible to fit in memory the data needed to train the Neural Network (that itself was too large). Hence the dataset has been sized down to about a sixth of the original nodes for manageability purposes.
+				The whole Twitter dataset had some troubles of treatability linked to the size of the set of nodes, that made impossible to fit in memory the data needed to train the Neural Network (that itself was too large). Hence the dataset has been sized down to about a sixth of the original nodes for manageability purposes. 
+				
 				\newpage
 			\subsection{Practical issues}
 			- python problems (memory efficiency)\\
@@ -314,7 +316,14 @@
 		Daixin Wang, Peng Cui and Wenwu Zhu, 2016, \textit{Structural Deep Network Embedding}, KDD ’16, San Francisco (CA), USA
 		
 		\bibitem{twitterdata}
-		Lilian Weng, Filippo Menczer, and Yong-Yeol Ahn. \textit{Virality Prediction and Community Structure in Social Networks}. Nature Scientific Report. (3)2522, 2013.
+		\textbf{Twitter Dataset}: Lilian Weng, Filippo Menczer, and Yong-Yeol Ahn. \textit{Virality Prediction and Community Structure in Social Networks}. Nature Scientific Report. (3)2522, 2013.
+		
+		\bibitem{facebookdata}
+		\textbf{Facebook Dataset}: J. McAuley and J. Leskovec. Learning to Discover Social Circles in Ego Networks. NIPS, 2012.
+		
+		\bibitem{emaildata}
+		\textbf{Email Dataset}: Hao Yin, Austin R. Benson, Jure Leskovec, and David F. Gleich. "Local Higher-order Graph Clustering." In Proceedings of the 23rd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining. 2017.
+		
 		
 	\end{thebibliography}
 			
