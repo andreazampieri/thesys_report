@@ -79,6 +79,7 @@
 	\tableofcontents{}
 	\newpage
 	\section{Summary}
+	\vspace{3cm}
 	This thesis tries to make an advancement in the field of network inference. Network inference is the procedure of trying to reconstruct a generic net (a human-interaction network, diffusion network of each genre, infection/diffusion network) starting from no information of any kind.\\
 	The whole process aims to be able to acquire knowledge about an environment that we don't know anything for sure and reconstruct and obtain some knowledge about it. This procedures needs some ways to acquire input-data in order to be able to even hypothesise about the investigated network.\\
 	The main way of gathering information is by observation: it's possible to acquire the data from online social network such as Facebook, Twitter, ecc., websites of any kind (with the requirement that some interaction takes place), for example news websites, online-libraries, scientific papers collections. We can get the data regarding the \textquotedblleft friending\textquotedblright activity, the posts on Twitter, the consequentiality of posts of news, the citations occurring in the publications.\\
@@ -153,7 +154,8 @@
 			where $|n|$ is the norm of the array-representation of the n and $|u|\cdot |v|$ is the cross product of the two representation.\\
 			The inference is based on the parameter $\theta$ that determines the threshold of acceptance. If $Sim(u,v) \ge \theta$ the arc is predicted present, not present otherwise.\\
 			The first way of evaluating is to generate a certain number of edges and asserting whether the prediction was correct or not; it's relevant to the evaluation goal to analyse every case (i.e. true positives, false positives, true negatives and true negatives).\\
-			The best way to 
+			The best way to evaluate the embedding would be to generate each possible couple of vertexes and verify whether the prediction is correct or not. It's known that generating each possible pair of values from a set of $n$, has complexity $\Theta(n^{2})$ and with really large networks performing a huge amount of operation on lists of value can lead to impractical times of resolution.
+			An alternative way of taking some edges to test the performances, can be the generation of pairs of vertexes utilising the filtered cascades: this gives us also a way of knowing how much \textquotedblleft truth\textquotedblright there is in using those pairs for the autoencoder (it will be described afterwards).
 			\medskip\\
 
 			With respect to the use of the cascades, in order to increase the performances not the whole dataset is utilised. As said in DeepInfer, shorter cascades contains more relevant informations about the communities in the graph; observing viral \textquotedblleft contaminations" tells us basically nothing about the relation between the node of the graph. \\
@@ -165,7 +167,7 @@
 			A perceptron is the simulation of a human neuron: it has different inputs and one single line of output. Each input has it's own \textquotedblleft weight\textquotedblright that gives a value to the relevancy to the determined input. The output of a perceptron is determined by the value of its inputs (after having applied the weights) and by its bias. The bias is a constant value that influences the output of the perceptron (the bias can be seen as the weight of an input with value always 1).\\
 			In a feedforward NN, the input values pass through the net and the output layer contains the \textquotedblleft answer\textquotedblright; there are no loops or backtracking signals.
 			\begin{figure}[h!]
-				\centerline{\psfig{file=nn.png, width=0.6\textwidth}}
+				\centerline{\psfig{file=nn.png, width=0.55\textwidth}}
 			\end{figure}
 			
 			\subsection{Deep Autoencoder}
@@ -179,17 +181,13 @@
 			In an \textit{undercomplete} AE the encoding layer is smaller than the input and output ones. With this setup, the NN tries to learn a compressed representation of the input data. In some way this can be seen as a process of feature extraction; moreover it isn't infrequent that AE performances are compared to PCA (Principal Component Analysis: statistical method for dimensionality reduction in information theory) in publications.
 			\par \noindent \newline
 			\begin{figure}[h!]
-				\centerline{\psfig{file=autoencoders.png, width=0.6\textwidth}}
+				\centerline{\psfig{file=autoencoders.png, width=0.55\textwidth}}
 			\end{figure}
 			\newpage
 			
 		\section{Work}
-			The work done has the goal to verify whether the use of a Deep AE to accomplish the embedding(the n-dimensional node representation) lead to an improvement in performances, wrt. the embedding created by Word2Vec-algorithm.
-			
-			\begin{quote}
-				\centering
-				\textsc{finish}
-			\end{quote}
+			The work done has the goal to verify whether the use of a Deep AE to accomplish the embedding(the n-dimensional node representation) lead to an improvement in performances, wrt. the embedding created by Word2Vec-algorithm.\\
+			Interaction/diffusion networks can be very different, very complex and \textquotedblleft hide\textquotedblright non-trivial patterns in the behaviour; from here the idea to substitute Word2Vec, a shallow model, with a deeper and more complex one such as an Autoencoder. The AE performs the \textquotedblleft same\textquotedblright task as Word2Vec: it gives a compressed representation of the input data. The goal is to train a Deep AE that understands well the complex patterns of the networks and extracts a good embedding that can be used in the Inference task.
 			
 			\subsection{Inspiration}
 			\textit{Structural Deep Network Embedding} (SDNE) is a paper that covers the idea of reducing the data saved for each node in a network but maintaining good efficacy in reconstructing the network.\\
