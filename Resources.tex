@@ -163,7 +163,9 @@
 			Computing the co-occurrence of pairs of nodes from a set of cascades consists in fetching all the cascades, and for each one of them increasing the counter of the pair $(u,v)$ if $u$ occurs before $v$ in the cascade.\\
 			This information will be useful to create a probabilistic adjacency list representation for the Deep Autoencoder.
 			\paragraph{Goodness of the pairs}
-			Running the evaluation process on the pairs of nodes obtained by filtering too-long-cascades, computing the co-occurrence count and sorted by the latter parameter, there is a high percentage of true positives, with low ratio of false positives and true negatives. This gives us the confidence to use a representation for each node $u$ that resembles an adjacency-list that contains 0 at the index $v$ where the pair $(u,v)$ hasn't appeared, in the other case contains the counter.\\
+			Running the evaluation process on the pairs of nodes obtained by filtering too-long-cascades, computing the co-occurrence count and sorted by the latter parameter, there is a high percentage of true positives, with low ratio of false positives and true negatives. This gives us the confidence to use a representation for each node $u$ that resembles an adjacency-list that contains 0 at the index $v$ where the pair $(u,v)$ hasn't appeared, in the other case contains the counter.\medskip\\
+			
+			Each node of the network will be characterized by its \textquotedblleft neighbours\textquotedblright; since, as mentioned before, any kind of sure information about the graph is given, the representation for the neighbours of each node will be created as a row of the adjacency-matrix that will contain 0s where the two nodes never belonged in the same cascade, and the counter value of the co-occurrence of both nodes in the various cascades.
 			\begin{quote}
 				\centering
 				\textsc{To be finished}\\
@@ -188,6 +190,7 @@
 			
 		\section{Work}
 			The work done has the goal to verify whether the use of a Deep AE to accomplish the embedding(the n-dimensional node representation) lead to an improvement in performances, wrt. the embedding created by Word2Vec-algorithm.
+			
 			\begin{quote}
 				\centering
 				\textsc{finish}
@@ -303,7 +306,8 @@
 			
 				\paragraph{Small Datasets:} small datasets performed badly; some hypothesis can be made about the lack of training data or the fact that being such small networks, they are influenced a lot by fluctuations due to the randomness of the source (humans).
 				\paragraph{Twitter dataset:} to explain the very controversial results obtained by this dataset, is due a look on the embedding of the node. The representation of the vertexes of the net consist mostly of 0s and 1s, interlapped by rare floating point values between those two. This means that the autoencoder learnt a good way of reproducing the lists of 100k integers really well, basically mapping them on keys of dimension 128. This made completely fail the goal of the process, and created very similar representation for each node, but the network was still able to reconstruct accurately the inputs.\\
-				Even the inputs were kind of particular: since they were constructed starting from the cooccurrence of pairs in the cascade, the nodes never found many matches to cover the majority of the nodes, leaving the most part of their so called \textquotedblleft adjacency-list\textquotedblright empty (0 values).
+				Even the inputs were kind of particular: since they were constructed starting from the cooccurrence of pairs in the cascade, the nodes never found many matches to cover the majority of the nodes, leaving the most part of their so called \textquotedblleft adjacency-list\textquotedblright empty (0 values). \bigskip \\
+				The method as it is isn't effective at all, and the accomplishment done by the Autoencoder has been merely to select relevant values acting as a compression algorithm, but failing at giving good embedding for the Network Inference Task. Furthermore, the trained NN had as objective to be able to reconstruct adjacency lists that weren't accounting the actual proximity between nodes in the new representation. If two different nodes had similar neighbours, they would have also similar representation but this doesn't imply that they are neighbours too. This assumption can be made on graphs with very densely connected communities and very few inter-community links.
 				
 				\newpage
 			\subsection{Practical issues}
@@ -330,6 +334,10 @@
 			As to be expected, using dictionaries and more complex data structures, matters get even worse.\smallskip\\
 			While utilising the Twitter dataset (about 600000 nodes initially), I had to subsample the set of nodes, since that just storing a Tensorflow Deep Autoencoder (fully connected layers with shape [500k $\rightarrow$ 10k $\rightarrow$ 128 $\rightarrow$ 10k $\rightarrow$ 500k]) couldn't be done on the machines that I had access to (100GB RAM). Hence, I took a subsample ok 100k nodes in order to be able to fit the Neural Network in memory.\\
 			As mentioned before,
+			\begin{quote}
+				\centering
+				\textsc{To be finished}\\
+			\end{quote}
 			
 			
 			\newpage
