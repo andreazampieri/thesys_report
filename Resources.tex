@@ -50,25 +50,24 @@
 		
 		\vspace{0 cm} 
 		
-		\LARGE{Dipartimento di Ingegneria e Scienza dell’Informazione\\}
+		\LARGE{Dipartimento di Ingegneria e Scienza dell\textquoteright Informazione\\}
 		
 		\vspace{1 cm} 
-		\Large{Corso di Laurea in\\
-			Informatica
+		\Large{Corso di Laurea in Informatica
 		}
 		
 		%\vspace{2 cm} 
 		%\Large\textsc{Elaborato finale\\} 
-		\vspace{1 cm} 
-		\Huge\textsc{Network Inference via  Node Embedding\\}
+		\vspace{4 cm} 
+		\Huge\textsc{Network Inference\\via  Node Embedding\\}
 		
-		\vspace{2 cm} 
+		\vspace{4 cm} 
 		\begin{tabular*}{\textwidth}{ c @{\extracolsep{\fill}} c }
 			\Large{Relatore} & \Large{Laureando}\\
 			\Large{Alberto Montresor}& \Large{Andrea Zampieri}\\
 		\end{tabular*}
 		
-		\vspace{2 cm} 
+		\vspace{4 cm} 
 		
 		\Large{Anno accademico 2016/2017}
 		
@@ -267,9 +266,22 @@
 			- c++ introduction\\
 			- problems with c++\\
 			
-			Since the beginning of this thesis, the language that I've used is Python. Reproducing the results shown in DeepInfer wasn't a problem at all, due to the light-weight of the computations needed since the \textquotedblleft heavy\textquotedblright work consisted on generating the embedding with \textit{Word2Vec}. The process took some minutes but one of the pros of the previously cited method is the lightness, given that the NN is very small.
-			
-			
+			Since the beginning of this thesis, the language that I've used is Python. Reproducing the results shown in DeepInfer wasn't a problem at all, due to the light-weight of the computations needed since the \textquotedblleft heavy\textquotedblright work consisted on generating the embedding with \textit{Word2Vec}. The process took some minutes but one of the pros of the previously cited method is the lightness, given that the NN is shallow.\\
+			On the other hand, the Autoencoder carries some not irrelevant dimensions/memory issues; since the input and the output layers can be very large, adding fully-connected layers in this kind of NN pumps up the amount of resources needed to handle the whole network through the training sections.\\
+			Moreover, Python has some serious issues regarding memory efficiency in their data structures causing the work on big datasets really hard, since the data that should be fed into the net takes up much more memory than it should, leaving less resources to handle the Neural Network. A small example of this kind of problem is shown in the table below:\bigskip \\
+			\textit{Allocation of $10^{9}$ integers}\\
+			\vspace{0.8cm}
+			\begin{centering}
+				\begin{tabular}{l | c}
+					\textbf{Data Structure} & \textbf{Memory Occupancy}\\
+					Python: standard list [] & ~7.48 GB \\
+					Python: array.array & over 30 GB\\
+					C++: vector$<$int$>$ & 3.78 GB
+				\end{tabular}
+			\end{centering}\\
+			\vspace{0.8cm}
+			The lower bound for storing that amount of integer values is accomplished by C++, that also provides very efficient and fast operations; Python requires a lot more resources in order to be time-efficient (array.array) and the simplest implementation of the list takes up almost the double of the memory needed.\\
+			As to be expected, using dictionaries and more complex data structures, matters get even worse.\\
 			
 			
 	\section{Bibliography}
