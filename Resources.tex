@@ -152,27 +152,22 @@
 			$$ Sim(u,v) = \frac{|u\cdot v|}{|u|\cdot |v|} $$
 			where $|n|$ is the norm of the array-representation of the n and $|u|\cdot |v|$ is the cross product of the two representation.\\
 			The inference is based on the parameter $\theta$ that determines the threshold of acceptance. If $Sim(u,v) \ge \theta$ the arc is predicted present, not present otherwise.\\
-			The first way of evaluating is to generate a certain number of edges and asserting whether the prediction was correct or not; it's relevant to the evaluation goal to analyse every case (i.e. true positives, false positives, true negatives and true negatives).\medskip\\
+			The first way of evaluating is to generate a certain number of edges and asserting whether the prediction was correct or not; it's relevant to the evaluation goal to analyse every case (i.e. true positives, false positives, true negatives and true negatives).\\
+			The best way to 
+			\medskip\\
 
 			With respect to the use of the cascades, in order to increase the performances not the whole dataset is utilised. As said in DeepInfer, shorter cascades contains more relevant informations about the communities in the graph; observing viral \textquotedblleft contaminations" tells us basically nothing about the relation between the node of the graph. \\
-			\begin{quote}
-				\centering
-				\textsc{missing joining phrases}\\
-			\end{quote}
-			\subsubsection{Pairs co-occurrence}
-			Computing the co-occurrence of pairs of nodes from a set of cascades consists in fetching all the cascades, and for each one of them increasing the counter of the pair $(u,v)$ if $u$ occurs before $v$ in the cascade.\\
-			This information will be useful to create a probabilistic adjacency list representation for the Deep Autoencoder.
-			\paragraph{Goodness of the pairs}
-			Running the evaluation process on the pairs of nodes obtained by filtering too-long-cascades, computing the co-occurrence count and sorted by the latter parameter, there is a high percentage of true positives, with low ratio of false positives and true negatives. This gives us the confidence to use a representation for each node $u$ that resembles an adjacency-list that contains 0 at the index $v$ where the pair $(u,v)$ hasn't appeared, in the other case contains the counter.\medskip\\
-			
-			Each node of the network will be characterized by its \textquotedblleft neighbours\textquotedblright; since, as mentioned before, any kind of sure information about the graph is given, the representation for the neighbours of each node will be created as a row of the adjacency-matrix that will contain 0s where the two nodes never belonged in the same cascade, and the counter value of the co-occurrence of both nodes in the various cascades.
-			\begin{quote}
-				\centering
-				\textsc{To be finished}\\
-			\end{quote}
 			\newpage
 			
 		\section{Neural Network background}
+			\subsection{Neural Networks}
+			A feedforward Neural Network (NN) is a graph of perceptrons that are connected and interact between them sending signals.\\
+			A perceptron is the simulation of a human neuron: it has different inputs and one single line of output. Each input has it's own \textquotedblleft weight\textquotedblright that gives a value to the relevancy to the determined input. The output of a perceptron is determined by the value of its inputs (after having applied the weights) and by its bias. The bias is a constant value that influences the output of the perceptron (the bias can be seen as the weight of an input with value always 1).\\
+			In a feedforward NN, the input values pass through the net and the output layer contains the \textquotedblleft answer\textquotedblright; there are no loops or backtracking signals.
+			\begin{figure}[h!]
+				\centerline{\psfig{file=nn.png, width=0.6\textwidth}}
+			\end{figure}
+			
 			\subsection{Deep Autoencoder}
 			Deep Autoencoders (AE) are deep feedforward neural networks with the goal of reproducing the input as accurately as possible. The architecture can be seen as two different parts: the encoder and the decoder. These parts are one after the other and the goal of the network can be summarized in this fashion:
 			$$y=dec(enc(x))$$
@@ -216,7 +211,14 @@
 			\end{equation}
 			This list of values resembles a traditional adjacency list, but it's completely inferred by the cascades without any assurance on the truthfulness of the guesses.\\
 			
-			\subsection{Note on cascades and pairs of nodes}
+			\subsubsection{Pairs co-occurrence}
+			Computing the co-occurrence of pairs of nodes from a set of cascades consists in fetching all the cascades, and for each one of them increasing the counter of the pair $(u,v)$ if $u$ occurs before $v$ in the cascade.\\
+			This information will be useful to create a probabilistic adjacency list representation for the Deep Autoencoder.
+			\paragraph{Goodness of the pairs}
+			Running the evaluation process on the pairs of nodes obtained by filtering too-long-cascades, computing the co-occurrence count and sorted by the latter parameter, there is a high percentage of true positives, with low ratio of false positives and true negatives. This gives us the confidence to use a representation for each node $u$ that resembles an adjacency-list that contains 0 at the index $v$ where the pair $(u,v)$ hasn't appeared, in the other case contains the counter.\medskip\\
+			
+			Each node of the network will be characterized by its \textquotedblleft neighbours\textquotedblright; since, as mentioned before, any kind of sure information about the graph is given, the representation for the neighbours of each node will be created as a row of the adjacency-matrix that will contain 0s where the two nodes never belonged in the same cascade, and the counter value of the co-occurrence of both nodes in the various cascades.
+			
 			As previously said, short cascades gives us more information and more accuracy in prediction.\\
 			Taking in example the case of the Twitter dataset, cascades are list of users that used a certain hashtag; in a small cascade we observe few people using the same hashtag, and so we can guess with fairly high confidence that they must follow each other because they saw the hashtag from each other. On the other hand the information is very local and doesn't cover the situation about the interconnection between communities and/or less evident grades of connection.\medskip\\
 			The threshold $\lambda$ of the length of the cascades involved into the process of learning becomes an hyperparameter of the procedure. An expected phenomenon bound to the variation of $\lambda$ is that the lower it is, the more accurate will be the predictions, but the fewer arcs will be possible to infer. On the contrary, the exact opposite happens as $\lambda$ increases.
@@ -284,7 +286,7 @@
 						twitter (subsampled) & [500k $\rightarrow$ 10k $\rightarrow$ 128 $\rightarrow$ 10k $\rightarrow$ 500k]
 					\end{tabular}	
 				\end{center}
-				The whole Twitter dataset had some troubles of treatability linked to the size of the set of nodes, that made impossible to fit in memory the data needed to train the Neural Network (that itself was too large). Hence the dataset has been sized down to about a sixth of the original nodes for manageability purposes.\\
+				The whole Twitter dataset had some troubles of treatability linked to the size of the set of nodes, that made impossible to fit in memory the data needed to train the Neural Network (that itself was too large). Hence the dataset has been sized down to about a sixth of the original nodes for manageability purposes. Also, the ID\textquoteright s of the selected nodes got mapped through a dictionary to be contiguous.\\
 				The results are shown in the table below.
 				
 				\begin{center}
@@ -311,11 +313,6 @@
 				
 				\newpage
 			\subsection{Practical issues}
-			- python problems (memory efficiency)\\
-			- adaptments\\
-			- c++ introduction\\
-			- problems with c++\\
-			
 			Since the beginning of this thesis, the language that I've used is Python. Reproducing the results shown in DeepInfer wasn't a problem at all, due to the light-weight of the computations needed since the \textquotedblleft heavy\textquotedblright work consisted on generating the embedding with \textit{Word2Vec}. The process took some minutes but one of the pros of the previously cited method is the lightness, given that the NN is shallow.\\
 			On the other hand, the Autoencoder carries some not irrelevant dimensions/memory issues; since the input and the output layers can be very large, adding fully-connected layers in this kind of NN pumps up the amount of resources needed to handle the whole network through the training sections.\\
 			Moreover, Python has some serious issues regarding memory efficiency in their data structures causing the work on big datasets really hard, since the data that should be fed into the net takes up much more memory than it should, leaving less resources to handle the Neural Network. A small example of this kind of problem is shown in the table below:\bigskip \\
@@ -332,12 +329,17 @@
 			\newline
 			The lower bound for storing that amount of integer values is accomplished by C++, that also provides very efficient and fast operations; Python requires a lot more resources in order to be time-efficient (array.array) and the simplest implementation of the list takes up almost the double of the memory needed.\\
 			As to be expected, using dictionaries and more complex data structures, matters get even worse.\smallskip\\
-			While utilising the Twitter dataset (about 600000 nodes initially), I had to subsample the set of nodes, since that just storing a Tensorflow Deep Autoencoder (fully connected layers with shape [500k $\rightarrow$ 10k $\rightarrow$ 128 $\rightarrow$ 10k $\rightarrow$ 500k]) couldn't be done on the machines that I had access to (100GB RAM). Hence, I took a subsample ok 100k nodes in order to be able to fit the Neural Network in memory.\\
-			As mentioned before, I struggled with a lot of memory overhead and tried different approaches in order to fit the training data in memory. The training data consisted in the representation of each node with their counters given by the pairs. The training batch was basically an adjacency matrix with counters on the crossing of two nodes that occurred a $c$ number of times in the cascades that passed through the length-selection.
-			\begin{quote}
-				\centering
-				\textsc{To be finished}\\
-			\end{quote}
+			While utilising the Twitter dataset (about 600000 nodes initially), I had to subsample the set of nodes, since that just storing a Tensorflow \footnote{Tensorflow is a framework for Neural Networks developed by Google} Deep Autoencoder (fully connected layers with shape [500k $\rightarrow$ 10k $\rightarrow$ 128 $\rightarrow$ 10k $\rightarrow$ 500k]) couldn't be done on the machines that I had access to (100GB RAM). Hence, I took a subsample ok 100k nodes in order to be able to fit the Neural Network in memory.\\
+			As mentioned before, I struggled with a lot of memory overhead and tried different approaches in order to fit the training data in memory. The training data consisted in the representation of each node with their counters given by the pairs. The training batch was basically an adjacency matrix with counters on the crossing of two nodes that occurred a $c$ number of times in the cascades that passed through the length-selection.\\
+			In order to not run out of hard-disk space, two different approaches were tried to be able to maintain the whole training data in memory:\\
+			\begin{enumerate}
+				\item A binary file with the complete adjacency-matrix was saved on the disk, and it got mapped on memory \textquotedblleft as is\textquotedblright when needed.\\
+				\textbf{Notes:} the matrix contained contiguous indexes because the mapping from node ID to index via the dictionary was already done; the transition between the binary file and the actual values has been made possible due to the fixed length of the integer values, knowing the \textquotedblleft endianness\textquotedblright of the representation
+				\item Since the adjacency matrix was very sparse (~22\% of non-zero values), I used the same technique illustrated right above and applied it to the \textit{CSR representation} of the matrix. The CSR representation is an efficient and compressed way to store data values in sparse matrices. Its concept is very simple: keep a list with the non-trivial values (in our case non-zero values), keep a list with the corresponding indexes of column and a third list; this third list allows us to know which values are in the $i-th$ row looking at the values indexed at $i$ and $i+1$: these are the interval of indexes (of the data list) that belong to the $i-th$ row
+			\end{enumerate}
+			After these optimization, I was able to start training the neural network but I encountered a unintended behaviour with the framework Tensorflow: every iteration of training some GBs of memory weren't freed and each time they were adding up making impossible to handle the memory leak.\\
+			Luckily Tensorflow developed the APIs for storing a model architecture on disk and make it available independently from the programming language used to import it. This allowed me to create the architecture utilising Python and load it with C++ and train the model utilising the APIs for the latter.\\
+			As expected, no memory-problem was encountered. It can't be said for the Tensorflow C++ Documentation: it's approximate and incomplete because a very small percentage of Tensorflow-users embraces C++ as a language. It's missing a lot of support, documentation and explanation that forced me to run through the whole process of training each time I needed the network since I couldn't find how to save the trained model. This inconvenience burnt out different days of waiting since a single process of training took about 48h.
 			
 			
 			\newpage
