@@ -159,6 +159,7 @@
 				\centering
 				\textsc{To be finished}\\
 			\end{quote}
+			\newpage
 			
 		\section{Neural Network background}
 			\subsection{Deep Autoencoder}
@@ -174,6 +175,7 @@
 			\begin{figure}[h!]
 				\centerline{\psfig{file=autoencoders.png, width=0.6\textwidth}}
 			\end{figure}
+			\newpage
 			
 		\section{Work}
 			The work done has the goal to verify whether the use of a Deep AE to accomplish the embedding(the n-dimensional node representation) lead to an improvement in performances, wrt. the embedding created by Word2Vec-algorithm.
@@ -253,13 +255,24 @@
 						\textbf{Dataset} & \textbf{Nodes} & \textbf{Edges} \\
 						email-Eu & 1005 & 25571 \\
 						social circles: facebook & 4039 & 88234 \\
-						twitter & 100000 & /
+						twitter (original) & 595460 & 14273311\\
+						twitter (subsampled) & 100000 & 1278006
 					\end{tabular}	
 				\end{center}
 			
 				\bigskip
-				For the first two datasets the cascades (interactions between the nodes) were generated.
-				
+				For the first two datasets the cascades (interactions between the nodes) were generated starting from the actual graph and taking random walks of variable length: the latter parameter was generated with an exponential distribution ($\lambda e^{-\lambda x}$ for $x\ge 0$) starting from each vertex of the graph multiple times. On the other hand, for Twitter I already had a set of actually observed cascades.\smallskip\\
+				The shapes of the different autoencoders aimed to compress by orders of magnitude the inferred \textquotedblleft \textit{adjacency list}\textquotedblright in order to squeeze similar nodes close together. Here follows the shapes of the autoencoders:
+				\begin{center}
+					\begin{tabular}{l | c}
+						\textbf{Dataset} & \textbf{Shape} \\
+						email-Eu & [1005 $\rightarrow$ 250 $\rightarrow$ 10 $\rightarrow$ 250 $\rightarrow$ 1005] \\
+						social circles: facebook & [4039 $\rightarrow$ 250 $\rightarrow$ 10 $\rightarrow$ 250 $\rightarrow$ 4039]  \\
+						twitter (subsampled) & [500k $\rightarrow$ 10k $\rightarrow$ 128 $\rightarrow$ 10k $\rightarrow$ 500k]
+					\end{tabular}	
+				\end{center}
+				The whole Twitter dataset had some troubles of treatability linked to the size of the set of nodes, that made impossible to fit in memory the data needed to train the Neural Network (that itself was too large). Hence the dataset has been sized down to about a sixth of the original nodes for manageability purposes.
+				\newpage
 			\subsection{Practical issues}
 			- python problems (memory efficiency)\\
 			- adaptments\\
@@ -278,12 +291,15 @@
 					Python: array.array & over 30 GB\\
 					C++: vector$<$int$>$ & 3.78 GB
 				\end{tabular}
-			\end{centering}\newline
+			\end{centering}
+			\newline
 			The lower bound for storing that amount of integer values is accomplished by C++, that also provides very efficient and fast operations; Python requires a lot more resources in order to be time-efficient (array.array) and the simplest implementation of the list takes up almost the double of the memory needed.\\
-			As to be expected, using dictionaries and more complex data structures, matters get even worse.\\
+			As to be expected, using dictionaries and more complex data structures, matters get even worse.\smallskip\\
+			While utilising the Twitter dataset (about 600000 nodes initially), I had to subsample the set of nodes, since that just storing a Tensorflow Deep Autoencoder (fully connected layers with shape [500k $\rightarrow$ 10k $\rightarrow$ 128 $\rightarrow$ 10k $\rightarrow$ 500k]) couldn't be done on the machines that I had access to (100GB RAM). Hence, I took a subsample ok 100k nodes in order to be able to fit the Neural Network in memory.\\
+			As mentioned before,
 			
 			
-			
+			\newpage
 			
 	\section{Bibliography}
 	\begin{thebibliography}{10}	
@@ -296,6 +312,9 @@
 		
 		\bibitem{sdne}
 		Daixin Wang, Peng Cui and Wenwu Zhu, 2016, \textit{Structural Deep Network Embedding}, KDD ’16, San Francisco (CA), USA
+		
+		\bibitem{twitterdata}
+		Lilian Weng, Filippo Menczer, and Yong-Yeol Ahn. \textit{Virality Prediction and Community Structure in Social Networks}. Nature Scientific Report. (3)2522, 2013.
 		
 	\end{thebibliography}
 			
