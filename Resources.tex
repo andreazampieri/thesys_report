@@ -77,6 +77,9 @@
 	\newpage
 	\tableofcontents{}
 	\newpage
+	\section{Summary}
+	
+	\newpage
 	\section{Introduction} 
 		I started from the Zekarias	T. Kefato's paper: \textit{DeepInfer: Diffusion Network Inference through Representation Learning}.\\
 		The problem tackled in this paper (as described by its title) is inferring a network starting from series of interactions between the elements in play.
@@ -92,8 +95,9 @@
 				\end{addmargin}
 		\end{addmargin}
 	
-	\section{Reproduction of the SoA Tecnique}
+	\section{Reproduction of the SoA Technique}
 		\subsection{Brief Overview}
+			As first step of the thesis, I reproduced the technique described in \textit{DeepInfer}. The whole procedure began with the pre-process of the input data, eliminating what was useless, and leaving the sequences of users that wrote the same hashtag in their tweets. Following that, a work of cascade-sifting has occurred, with the goal of keeping the most information-dense chunks of data in order to perform better with the final objective.
 			The State of Art technique has precise, consequential steps:
 			\begin{itemize}
 				\item Cascade Linearization
@@ -250,7 +254,7 @@
 				But as explained in SDNE, it's hard to capture highly non-linear structure (in this case the structure of the network) with a representation learnt using a shallow model (Word2Vec). Hence, the multiple levels of the autoencoder should learn the complexity of the structure of the network, and efficiently construct a good representation for each vertex.
 				
 				\subsubsection{Results}
-				Three different datasets were used to validate this procedure. 
+				Three different datasets were used to validate this procedure. They all represent social graphs of different nature, but the procedure can be applied to every kind of graph that has some tangible and visible interaction that occurs between its nodes. The first two dataset are medium-small graphs, while twitter tends to be bigger. The nodes represent users/people and the arcs stand for, respectively, the interchange of emails in an european institute of research, friends on facebook and following on Twitter.
 				\begin{center}
 					\begin{tabular}{l | c | c}
 						\textbf{Dataset} & \textbf{Nodes} & \textbf{Edges} \\
@@ -272,7 +276,29 @@
 						twitter (subsampled) & [500k $\rightarrow$ 10k $\rightarrow$ 128 $\rightarrow$ 10k $\rightarrow$ 500k]
 					\end{tabular}	
 				\end{center}
-				The whole Twitter dataset had some troubles of treatability linked to the size of the set of nodes, that made impossible to fit in memory the data needed to train the Neural Network (that itself was too large). Hence the dataset has been sized down to about a sixth of the original nodes for manageability purposes. 
+				The whole Twitter dataset had some troubles of treatability linked to the size of the set of nodes, that made impossible to fit in memory the data needed to train the Neural Network (that itself was too large). Hence the dataset has been sized down to about a sixth of the original nodes for manageability purposes.\\
+				The results are shown in the table below.
+				
+				\begin{center}
+					\begin{tabular}{l | c | c | c | c }
+						\textbf{Dataset} & \textbf{True Positives} & \textbf{False Positives} & \textbf{False Negatives} & \textbf{True Negatives}  \\
+						email-Eu &  8067 & 314711 & 16862 & 669380\\
+						social circles: facebook & 74405 &	13720121 & 13829 & 2501127\\
+						twitter (subsampled) & 1278006 & 4998671994 & 0 & 0
+					\end{tabular}	
+				\end{center}
+				\hskip0.0cm
+				\begin{tabular}{l | c | c}
+					\textbf{Dataset} & \textbf{Precision} & \textbf{F1 score} \\
+					email-Eu &  0.026 & 0.046\\
+					social circles: facebook & 0.005 &	0.011\\
+					twitter (subsampled) & 0.00025 & *
+				\end{tabular}	
+			
+			
+				\paragraph{Small Datasets:} small datasets performed badly; some hypothesis can be made about the lack of training data or the fact that being such small networks, they are influenced a lot by fluctuations due to the randomness of the source (humans).
+				\paragraph{Twitter dataset:} to explain the very controversial results obtained by this dataset, is due a look on the embedding of the node. The representation of the vertexes of the net consist mostly of 0s and 1s, interlapped by rare floating point values between those two. This means that the autoencoder learnt a good way of reproducing the lists of 100k integers really well, basically mapping them on keys of dimension 128. This made completely fail the goal of the process, and created very similar representation for each node, but the network was still able to reconstruct accurately the inputs.\\
+				Even the inputs were kind of particular: since they were constructed starting from the cooccurrence of pairs in the cascade, the nodes never found many matches to cover the majority of the nodes, leaving the most part of their so called \textquotedblleft adjacency-list\textquotedblright empty (0 values).
 				
 				\newpage
 			\subsection{Practical issues}
