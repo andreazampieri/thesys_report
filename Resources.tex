@@ -160,7 +160,7 @@
 				\textsc{To be finished}\\
 			\end{quote}
 			
-		\section{Neural Network concepts}
+		\section{Neural Network background}
 			\subsection{Deep Autoencoder}
 			Deep Autoencoders (AE) are deep feedforward neural networks with the goal of reproducing the input as accurately as possible. The architecture can be seen as two different parts: the encoder and the decoder. These parts are one after the other and the goal of the network can be summarized in this fashion:
 			$$y=dec(enc(x))$$
@@ -278,10 +278,11 @@
 					Python: array.array & over 30 GB\\
 					C++: vector$<$int$>$ & 3.78 GB
 				\end{tabular}
-			\end{centering}\\
-			\vspace{0.8cm}
+			\end{centering}\newline
 			The lower bound for storing that amount of integer values is accomplished by C++, that also provides very efficient and fast operations; Python requires a lot more resources in order to be time-efficient (array.array) and the simplest implementation of the list takes up almost the double of the memory needed.\\
 			As to be expected, using dictionaries and more complex data structures, matters get even worse.\\
+			
+			
 			
 			
 	\section{Bibliography}
